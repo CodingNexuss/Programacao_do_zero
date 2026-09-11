@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programação Web do Zero — Aprenda HTML, CSS e JavaScript do Absoluto Zero</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --navy: #0b1622;
+            --navy-2: #0f1e30;
+            --navy-3: #132840;
+            --navy-4: #183250;
+            --teal: #00a68c;
+            --teal-light: #00c9a7;
+            --teal-glow: rgba(0, 166, 140, 0.25);
+            --white: #ffffff;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --divider: #00a68c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--navy);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px var(--teal-glow); }
+            50% { box-shadow: 0 0 40px rgba(0, 166, 140, 0.4); }
+        }
+        @keyframes line-grow {
+            from { width: 0; }
+            to { width: 80px; }
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--navy);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+        .hero-label {
+            display: inline-block;
+            padding: 6px 18px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--teal);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid rgba(0, 166, 140, 0.3);
+            border-radius: 4px;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .highlight {
+            color: var(--teal);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 2vw, 1.35rem);
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 12px;
+            font-weight: 400;
+        }
+
+        .hero-subtitle strong { color: var(--white); font-weight: 600; }
+
+        .hero-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--teal);
+            margin: 24px auto 36px;
+            border-radius: 2px;
+            animation: line-grow 1s ease-out;
+        }
+
+        .code-preview {
+            background: var(--navy-2);
+            border: 1px solid var(--navy-4);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 36px auto;
+            max-width: 520px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.88rem;
+            text-align: left;
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+        }
+        .code-preview::before {
+            content: 'index.html';
+            position: absolute;
+            top: 8px;
+            right: 16px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+        .code-preview .code-header { display: flex; gap: 6px; margin-bottom: 14px; }
+        .code-preview .dot-r { width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; }
+        .code-preview .dot-y { width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; }
+        .code-preview .dot-g { width: 10px; height: 10px; border-radius: 50%; background: #27c93f; }
+        .code-preview .tag { color: var(--teal); }
+        .code-preview .attr { color: #e0a856; }
+        .code-preview .str { color: #98c379; }
+        .code-preview .text-c { color: var(--text); }
+        .code-preview .comment { color: var(--text-muted); font-style: italic; }
+
+        .cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 16px 36px; background: var(--teal); color: var(--navy);
+            font-size: 1.05rem; font-weight: 700; border: none; border-radius: 6px;
+            cursor: pointer; text-decoration: none; transition: all 0.3s ease;
+            letter-spacing: 0.01em;
+        }
+        .btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); box-shadow: 0 8px 30px var(--teal-glow); }
+
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 16px 36px; background: transparent; color: var(--text);
+            font-size: 1rem; font-weight: 500; border: 1px solid var(--navy-4);
+            border-radius: 6px; cursor: pointer; text-decoration: none; transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
+
+        /* TRUST BAR */
+        .trust-bar {
+            background: var(--navy-2);
+            border-top: 1px solid var(--navy-4);
+            border-bottom: 1px solid var(--navy-4);
+            padding: 28px 20px;
+        }
+        .trust-bar-inner {
+            max-width: 1100px; margin: auto; display: flex;
+            justify-content: center; gap: 36px; flex-wrap: wrap;
+        }
+        .trust-item { display: flex; align-items: center; gap: 10px; font-size: 0.92rem; color: var(--text-muted); }
+        .trust-item .icon { font-size: 1.4rem; }
+        .trust-item strong { color: var(--white); }
+
+        /* SECTIONS */
+        .section { padding: 90px 20px; }
+        .section-inner { max-width: 1100px; margin: auto; }
+
+        .section-label {
+            display: inline-block;
+            padding: 5px 14px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+            border-left: 3px solid var(--teal);
+            padding-left: 14px;
+        }
+        .section-title {
+            font-size: clamp(1.7rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 14px;
+            line-height: 1.2;
+            color: var(--white);
+        }
+        .section-desc {
+            font-size: 1.05rem; color: var(--text-muted); max-width: 680px; margin-bottom: 44px;
+        }
+
+        /* PAIN SECTION */
+        .alt-bg { background: var(--navy-2); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; }
+
+        .pain-card {
+            background: var(--navy-3); border: 1px solid var(--navy-4);
+            border-radius: 8px; padding: 30px; transition: all 0.3s ease;
+        }
+        .pain-card:hover { border-color: rgba(0, 166, 140, 0.4); transform: translateY(-3px); }
+        .pain-card .card-icon { font-size: 2.2rem; margin-bottom: 14px; }
+        .pain-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--white); }
+        .pain-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* LEARN CARDS */
+        .learn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+        .learn-card {
+            background: var(--navy-2); border: 1px solid var(--navy-4); border-radius: 8px;
+            padding: 32px; position: relative; overflow: hidden; transition: all 0.3s ease;
+        }
+        .learn-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 3px; height: 100%;
+        }
+        .learn-card.html-card::before { background: #e0a856; }
+        .learn-card.css-card::before { background: var(--teal); }
+        .learn-card.js-card::before { background: #e0a856; }
+        .learn-card.tools-card::before { background: var(--teal); }
+        .learn-card:hover { transform: translateY(-3px); border-color: rgba(0, 166, 140, 0.3); }
+
+        .learn-card .card-icon { font-size: 1.8rem; margin-bottom: 14px; }
+        .learn-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; color: var(--white); }
+        .learn-card ul { list-style: none; padding: 0; }
+        .learn-card ul li {
+            padding: 7px 0; font-size: 0.92rem; color: var(--text-muted);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .learn-card ul li::before { content: '✓'; color: var(--teal); font-weight: 700; font-size: 0.85rem; }
+
+        /* TIMELINE */
+        .structure-timeline { position: relative; padding-left: 40px; }
+        .structure-timeline::before {
+            content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+            width: 2px; background: var(--teal);
+        }
+
+        .timeline-item {
+            position: relative; margin-bottom: 36px; padding: 24px 28px;
+            background: var(--navy-2); border: 1px solid var(--navy-4);
+            border-radius: 8px; transition: all 0.3s ease;
+        }
+        .timeline-item:hover { border-color: var(--teal); transform: translateX(4px); }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -33px; top: 30px;
+            width: 12px; height: 12px; background: var(--teal);
+            border-radius: 50%; border: 3px solid var(--navy);
+        }
+        .timeline-item h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 5px; color: var(--white); }
+        .timeline-item .chapter-count { font-size: 0.82rem; color: var(--teal); font-weight: 600; margin-bottom: 10px; }
+        .timeline-item p { font-size: 0.92rem; color: var(--text-muted); }
+
+        /* BONUS */
+        .bonus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+
+        .bonus-card {
+            background: var(--navy-3); border: 1px solid rgba(0, 166, 140, 0.15);
+            border-radius: 8px; padding: 26px; position: relative;
+            overflow: hidden; transition: all 0.3s ease;
+        }
+        .bonus-card::after {
+            content: 'GRÁTIS'; position: absolute; top: 10px; right: -26px;
+            background: var(--teal); color: var(--navy); font-size: 0.6rem;
+            font-weight: 800; padding: 3px 30px; transform: rotate(45deg); letter-spacing: 1px;
+        }
+        .bonus-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+        .bonus-card .bonus-icon { font-size: 1.6rem; margin-bottom: 10px; }
+        .bonus-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--white); }
+        .bonus-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .bonus-card .bonus-value { margin-top: 10px; font-size: 0.82rem; color: var(--text-muted); text-decoration: line-through; }
+
+        /* DIFFERENTIALS */
+        .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 20px; }
+        .diff-item {
+            text-align: center; padding: 32px 22px; background: var(--navy-2);
+            border: 1px solid var(--navy-4); border-radius: 8px; transition: all 0.3s ease;
+        }
+        .diff-item:hover { border-color: var(--teal); transform: translateY(-3px); }
+        .diff-item .diff-icon { font-size: 2.2rem; margin-bottom: 14px; }
+        .diff-item h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: var(--white); }
+        .diff-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* AUDIENCE */
+        .audience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .audience-card {
+            background: var(--navy-2); border: 1px solid var(--navy-4); border-radius: 8px;
+            padding: 30px; transition: all 0.3s ease;
+        }
+        .audience-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+        .audience-card .audience-icon { font-size: 1.8rem; margin-bottom: 14px; }
+        .audience-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; color: var(--white); }
+        .audience-card p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* PRICING */
+        .pricing-section { background: var(--navy-2); text-align: center; }
+        .pricing-card {
+            max-width: 500px; margin: 36px auto 0; background: var(--navy-3);
+            border: 2px solid var(--teal); border-radius: 12px;
+            padding: 44px 36px; position: relative; overflow: hidden;
+            animation: pulse-glow 3s infinite;
+        }
+        .pricing-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 3px; background: var(--teal);
+        }
+        .pricing-card .popular-badge {
+            position: absolute; top: 18px; right: -32px;
+            background: var(--teal); color: var(--navy); font-size: 0.65rem;
+            font-weight: 800; padding: 5px 38px; transform: rotate(45deg); letter-spacing: 1px;
+        }
+        .pricing-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; color: var(--white); }
+        .pricing-card .price-old { font-size: 1.05rem; color: var(--text-muted); text-decoration: line-through; margin-bottom: 3px; }
+        .pricing-card .price {
+            font-size: 3.2rem; font-weight: 900; color: var(--teal);
+            line-height: 1; margin-bottom: 3px;
+        }
+        .pricing-card .price-note { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 24px; }
+        .pricing-card .price-features { list-style: none; padding: 0; margin-bottom: 28px; }
+        .pricing-card .price-features li {
+            padding: 9px 0; font-size: 0.92rem; color: var(--text-muted);
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid var(--navy-4);
+        }
+        .pricing-card .price-features li:last-child { border-bottom: none; }
+        .pricing-card .price-features li .check { color: var(--teal); font-weight: 700; }
+
+        /* GUARANTEE */
+        .guarantee-section { text-align: center; }
+        .guarantee-box {
+            max-width: 680px; margin: 36px auto 0; background: var(--navy-2);
+            border: 2px solid var(--teal); border-radius: 12px;
+            padding: 46px 36px; display: flex; flex-direction: column;
+            align-items: center; gap: 18px;
+        }
+        .guarantee-box .shield-icon { font-size: 3.5rem; }
+        .guarantee-box h3 { font-size: 1.4rem; font-weight: 800; color: var(--white); }
+        .guarantee-box p { font-size: 0.98rem; color: var(--text-muted); max-width: 520px; line-height: 1.7; }
+
+        /* FAQ */
+        .faq-list { max-width: 720px; margin: 36px auto 0; }
+        .faq-item {
+            border: 1px solid var(--navy-4); border-radius: 6px;
+            margin-bottom: 10px; overflow: hidden; background: var(--navy-3);
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover { border-color: rgba(0, 166, 140, 0.3); }
+        .faq-question {
+            padding: 18px 22px; font-weight: 600; font-size: 0.98rem;
+            cursor: pointer; display: flex; justify-content: space-between;
+            align-items: center; user-select: none; color: var(--white);
+        }
+        .faq-question .arrow { font-size: 1.1rem; transition: transform 0.3s ease; color: var(--teal); }
+        .faq-answer { padding: 0 22px; max-height: 0; overflow: hidden; transition: all 0.3s ease; }
+        .faq-item.open .faq-answer { padding: 0 22px 18px; max-height: 200px; }
+        .faq-item.open .arrow { transform: rotate(180deg); }
+        .faq-answer p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+        /* FINAL CTA */
+        .final-cta {
+            text-align: center; padding: 90px 20px;
+            background: var(--navy);
+        }
+        .final-cta .countdown-text { font-size: 1.05rem; color: var(--teal); font-weight: 600; margin-bottom: 18px; letter-spacing: 1px; }
+        .final-cta h2 { font-size: clamp(1.9rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 14px; line-height: 1.15; color: var(--white); }
+        .final-cta h2 .highlight { color: var(--teal); }
+        .final-cta .sub {
+            font-size: 1.1rem; color: var(--text-muted); margin-bottom: 36px;
+            max-width: 580px; margin-left: auto; margin-right: auto;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center; padding: 36px 20px;
+            border-top: 1px solid var(--navy-4);
+            font-size: 0.82rem; color: var(--text-muted);
+            background: var(--navy-2);
+        }
+
+        .highlight-box {
+            text-align: center; margin-top: 44px; padding: 24px;
+            background: var(--navy-3); border-radius: 8px; border: 1px solid var(--navy-4);
+        }
+
+        .not-for-you {
+            text-align: center; margin-top: 44px; padding: 24px;
+            background: var(--navy-3); border-radius: 8px; border: 1px solid var(--navy-4);
+        }
+
+        .section-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--teal);
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .section { padding: 60px 20px; }
+            .pricing-card { padding: 32px 20px; }
+            .trust-bar-inner { gap: 18px; }
+            .cta-group { flex-direction: column; align-items: center; }
+            .structure-timeline { padding-left: 28px; }
+            .code-preview { margin: 24px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-label">GUIA PRÁTICO · EDIÇÃO REVISADA</div>
+
+        <h1>
+            <span class="highlight">Programação Web</span><br>
+            do Zero
+        </h1>
+
+        <p class="hero-subtitle">
+            Aprenda <strong>HTML, CSS e JavaScript</strong> do absoluto zero e crie seu primeiro site completo — sem pular nenhum passo.
+        </p>
+
+        <div class="hero-divider"></div>
+
+        <div class="code-preview">
+            <div class="code-header">
+                <div class="dot-r"></div>
+                <div class="dot-y"></div>
+                <div class="dot-g"></div>
+            </div>
+            <div class="code-line"><span class="comment">// Seu primeiro site começa aqui</span></div>
+            <div class="code-line"><span class="tag">&lt;h1&gt;</span><span class="text-c">Olá, mundo!</span><span class="tag">&lt;/h1&gt;</span></div>
+            <div class="code-line"><span class="tag">&lt;p</span> <span class="attr">class=</span><span class="str">"destaque"</span><span class="tag">&gt;</span><span class="text-c">Meu primeiro site</span><span class="tag">&lt;/p&gt;</span></div>
+            <div class="code-line"><span class="tag">&lt;button</span> <span class="attr">onclick=</span><span class="str">"iniciar()"</span><span class="tag">&gt;</span><span class="text-c">Começar</span><span class="tag">&lt;/button&gt;</span></div>
+        </div>
+
+        <div class="cta-group">
+            <a href="https://pay.kiwify.com.br/m433GX1" class="btn-primary">🚀 Quero começar agora</a>
+            <a href="#conteudo" class="btn-secondary">📖 Ver conteúdo do ebook</a>
+        </div>
+    </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+    <div class="trust-bar-inner">
+        <div class="trust-item">
+            <span class="icon">📱</span>
+            <span><strong>26 capítulos</strong> de conteúdo prático</span>
+        </div>
+        <div class="trust-item">
+            <span class="icon">🎁</span>
+            <span><strong>8 bônus</strong> inclusos</span>
+        </div>
+        <div class="trust-item">
+            <span class="icon">💻</span>
+            <span><strong>Projetos reais</strong> do zero ao site publicado</span>
+        </div>
+        <div class="trust-item">
+            <span class="icon">✅</span>
+            <span><strong>Exercícios</strong> com gabarito</span>
+        </div>
+    </div>
+</div>
+
+<!-- PAIN SECTION -->
+<section class="section alt-bg">
+    <div class="section-inner">
+        <span class="section-label">🙅 Você se identifica?</span>
+        <h2 class="section-title">Você olha para um site e pensa:<br>"Como alguém consegue criar isso?"</h2>
+        <p class="section-desc">Se você se identifica com alguma dessas dores, este ebook foi feito para você.</p>
+
+        <div class="card-grid">
+            <div class="pain-card">
+                <div class="card-icon">🤯</div>
+                <h3>Conteúdo é demais</h3>
+                <p>Você tenta aprender sozinho, mas se perde em vídeos infinitos e tutoriais que pulam etapas importantes.</p>
+            </div>
+            <div class="pain-card">
+                <div class="card-icon">😩</div>
+                <h3>Jargão técnico</h3>
+                <p>Cada tutorial parece escrito para quem já sabe programar. Você fica perdido com termos que ninguém explica.</p>
+            </div>
+            <div class="pain-card">
+                <div class="card-icon">😤</div>
+                <h3>Nada funciona</h3>
+                <p>Você copia o código, mas algo dá errado. E não sabe onde procurar — o Console do navegador é um mistério.</p>
+            </div>
+            <div class="pain-card">
+                <div class="card-icon">😰</div>
+                <h3>Medo de começar</h3>
+                <p>Programação parece outro universo. Você nem sabe por onde começar — HTML? CSS? JavaScript? Tudo junto?</p>
+            </div>
+            <div class="pain-card">
+                <div class="card-icon">📉</div>
+                <h3>Projetos incompletos</h3>
+                <p>Você começa projetos mas nunca termina. Falta orientação, falta método — e o site nunca sai do papel.</p>
+            </div>
+            <div class="pain-card">
+                <div class="card-icon">🔄</div>
+                <h3>Loop do tutorial</h3>
+                <p>Você assiste dezenas de vídeos, mas na hora de criar algo sozinho, trava. Falta prática estruturada.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT YOU'LL LEARN -->
+<section class="section" id="conteudo">
+    <div class="section-inner">
+        <span class="section-label">🚀 O que você vai aprender</span>
+        <h2 class="section-title">De zero absoluto a site publicado na internet</h2>
+        <p class="section-desc">Tudo o que você precisa para criar sites profissionais — explicado passo a passo, sem pular nenhum detalhe.</p>
+
+        <div class="learn-grid">
+            <div class="learn-card html-card">
+                <div class="card-icon">🏗️</div>
+                <h3>HTML — A Estrutura</h3>
+                <ul>
+                    <li>Estrutura de uma página web</li>
+                    <li>Textos, imagens e links</li>
+                    <li>Listas, botões e formulários acessíveis</li>
+                    <li>Labels ligados a inputs (acessibilidade real)</li>
+                    <li>Semântica e boas práticas</li>
+                </ul>
+            </div>
+            <div class="learn-card css-card">
+                <div class="card-icon">🎨</div>
+                <h3>CSS — O Visual</h3>
+                <ul>
+                    <li>Seletores, unidades e Box Model</li>
+                    <li>Cores, fontes e espaçamento</li>
+                    <li>Flexbox para layouts flexíveis</li>
+                    <li>Grid para layouts em grade</li>
+                    <li>Responsividade (Media Queries)</li>
+                    <li>Animações com CSS</li>
+                </ul>
+            </div>
+            <div class="learn-card js-card">
+                <div class="card-icon">⚡</div>
+                <h3>JavaScript — A Interatividade</h3>
+                <ul>
+                    <li>Variáveis (let vs const)</li>
+                    <li>Condições (if/else)</li>
+                    <li>Funções reutilizáveis</li>
+                    <li>Eventos (click, submit)</li>
+                    <li>Manipulação do DOM</li>
+                    <li>Console para encontrar erros</li>
+                </ul>
+            </div>
+            <div class="learn-card tools-card">
+                <div class="card-icon">🛠️</div>
+                <h3>Git e Publicação</h3>
+                <ul>
+                    <li>Git: versionamento de código</li>
+                    <li>GitHub: armazenar projetos</li>
+                    <li>GitHub Pages: publicar gratuitamente</li>
+                    <li>Terminal e comandos básicos</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTENT STRUCTURE -->
+<section class="section alt-bg">
+    <div class="section-inner">
+        <span class="section-label">📚 Estrutura do Ebook</span>
+        <h2 class="section-title">26 capítulos que te levam<br>do zero ao site publicado</h2>
+        <p class="section-desc">Cada parte foi pensada para construir conhecimento de forma progressiva — sem buracos, sem atalhos.</p>
+
+        <div class="structure-timeline">
+            <div class="timeline-item">
+                <h3>PARTE 1 — Primeiros Passos</h3>
+                <p class="chapter-count">3 capítulos</p>
+                <p>O que é programação, como funciona a Web, e como preparar seu ambiente com VS Code, Live Server e DevTools.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>PARTE 2 — HTML</h3>
+                <p class="chapter-count">5 capítulos + 1 projeto</p>
+                <p>Tags, estrutura de página, textos, imagens, links, listas, formulários acessíveis e Projeto 1: Página Pessoal.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>PARTE 3 — CSS</h3>
+                <p class="chapter-count">6 capítulos + 1 projeto</p>
+                <p>Seletores, Box Model, cores, Flexbox, Grid, responsividade, animações e Projeto 2: Landing Page.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>PARTE 4 — JavaScript</h3>
+                <p class="chapter-count">6 capítulos + 1 projeto</p>
+                <p>Variáveis, condições, funções, eventos, DOM, Console e Projeto 3: Site Interativo.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>PARTE 5 — Projeto Final</h3>
+                <p class="chapter-count">4 capítulos</p>
+                <p>Site completo, organização de projeto, Git e publicação no GitHub Pages — seu site no ar para o mundo ver!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BONUS -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label">🎁 Bônus Exclusivos</span>
+        <h2 class="section-title">8 bônus que valem mais que o ebook</h2>
+        <p class="section-desc">Todo mundo que compra recebe esses bônus gratuitamente — eles por si só já valem o investimento.</p>
+
+        <div class="bonus-grid">
+            <div class="bonus-card">
+                <div class="bonus-icon">🏷️</div>
+                <h3>Cheat Sheet HTML</h3>
+                <p>Todas as tags principais num resumo visual de uma página. Consulta rápida durante os projetos.</p>
+                <div class="bonus-value">Valor: R$ 27</div>
+            </div>
+            <div class="bonus-card">
+                <div class="bonus-icon">🎨</div>
+                <h3>Cheat Sheet CSS</h3>
+                <p>Propriedades, seletores, Flexbox e Grid num cheat sheet prático para ter sempre ao lado.</p>
+                <div class="bonus-value">Valor: R$ 27</div>
+            </div>
+            <div class="bonus-card">
+                <div class="bonus-icon">⚡</div>
+                <h3>Cheat Sheet JavaScript</h3>
+                <p>Variáveis, funções, eventos e DOM — tudo resumido pra você colar no mural.</p>
+                <div class="bonus-value">Valor: R$ 27</div>
+            </div>
+            <div class="bonus-card">
+                <div class="bonus-icon">🔧</div>
+                <h3>Cheat Sheet Git</h3>
+                <p>Comandos essenciais do Git para versionamento e publicação. Nunca mais esqueça o comando.</p>
+                <div class="bonus-value">Valor: R$ 27</div>
+            </div>
+            <div class="bonus-card">
+                <div class="bonus-icon">💡</div>
+                <h3>20 Ideias de Projetos</h3>
+                <p>De portfólio a dashboard — 20 projetos para você construir e colocar no currículo após terminar o ebook.</p>
+                <div class="bonus-value">Valor: R$ 37</div>
+            </div>
+            <div class="bonus-card">
+                <div class="bonus-icon">✅</div>
+                <h3>Checklist do Primeiro Site</h3>
+                <p>Lista completa para validar HTML, CSS, JS e publicação. Seu site perfeito, sem detalhes esquecidos.</p>
+                <div class="bonus-value">Valor: R$ 19</div>
+            </div>
+            <div class="bonus-card">
+                <div class="bonus-icon">📖</div>
+                <h3>Gabaritos dos Exercícios</h3>
+                <p>Respostas completas e comentadas de todos os exercícios do ebook. Compare, aprenda, evolua.</p>
+                <div class="bonus-value">Valor: R$ 19</div>
+            </div>
+            <div class="bonus-card">
+                <div class="bonus-icon">📅</div>
+                <h3>Plano de Estudos 30 Dias</h3>
+                <p>Um dia de estudo por vez — 4 semanas organizadas para você terminar o ebook com ritmo e método.</p>
+                <div class="bonus-value">Valor: R$ 37</div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <p style="color: var(--text-muted); font-size: 0.92rem;">Total dos bônus: <span style="text-decoration: line-through; color: var(--text);">R$ 209</span> → <strong style="color: var(--teal); font-size: 1.05rem;">GRÁTIS</strong> na sua compra</p>
+        </div>
+    </div>
+</section>
+
+<!-- DIFFERENTIALS -->
+<section class="section alt-bg">
+    <div class="section-inner">
+        <span class="section-label">💎 Por que este ebook é diferente</span>
+        <h2 class="section-title">Este não é mais um tutorial que te deixa na mão</h2>
+        <p class="section-desc">Enquanto a maioria dos conteúdos pula etapas e usa jargão, este ebook foi pensado para quem está começando do absoluto zero.</p>
+
+        <div class="diff-grid">
+            <div class="diff-item">
+                <div class="diff-icon">🚫</div>
+                <h3>Sem Jargão</h3>
+                <p>Tudo é explicado em linguagem simples. Se um termo novo aparece, é explicado antes de ser usado.</p>
+            </div>
+            <div class="diff-item">
+                <div class="diff-icon">🧩</div>
+                <h3>Progressivo</h3>
+                <p>Cada capítulo constrói sobre o anterior. Nenhum passo é pulado — você nunca fica perdido.</p>
+            </div>
+            <div class="diff-item">
+                <div class="diff-icon">🛠️</div>
+                <h3>100% Prático</h3>
+                <p>3 projetos ao longo do ebook + 1 projeto final completo. Você programa de verdade, não só lê.</p>
+            </div>
+            <div class="diff-item">
+                <div class="diff-icon">✅</div>
+                <h3>Exercícios com Gabarito</h3>
+                <p>Exercícios em cada capítulo com respostas completas no final. Você aprende e se avalia sozinho.</p>
+            </div>
+            <div class="diff-item">
+                <div class="diff-icon">🌐</div>
+                <h3>Do Zero ao Online</h3>
+                <p>Único ebook que ensina Git e GitHub Pages — seu site fica disponível na internet de graça!</p>
+            </div>
+            <div class="diff-item">
+                <div class="diff-icon">♿</div>
+                <h3>Acessibilidade</h3>
+                <p>Formulários acessíveis, labels ligados a inputs, atributos alt — boas práticas desde o dia 1.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHO IS IT FOR -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label">🎯 Para quem é</span>
+        <h2 class="section-title">Feito para quem quer começar do zero</h2>
+        <p class="section-desc">Este ebook é para você que nunca programou — ou tentou e travou.</p>
+
+        <div class="audience-grid">
+            <div class="audience-card">
+                <div class="audience-icon">🧑‍💻</div>
+                <h3>Iniciante Absoluto</h3>
+                <p>Nunca escreveu uma linha de código? Perfeito. Este ebook foi feito para você — do zero mesmo.</p>
+            </div>
+            <div class="audience-card">
+                <div class="audience-icon">🔄</div>
+                <h3>Transição de Carreira</h3>
+                <p>Quer entrar na área de tecnologia mas não sabe por onde começar? Aqui está a sua porta de entrada.</p>
+            </div>
+            <div class="audience-card">
+                <div class="audience-icon">🎓</div>
+                <h3>Estudantes</h3>
+                <p>Complementa qualquer curso com prática real — projetos que você pode mostrar no portfólio.</p>
+            </div>
+            <div class="audience-card">
+                <div class="audience-icon">🧩</div>
+                <h3>Autodidatas Presos</h3>
+                <p>Já assistiu vídeos mas não consegue criar nada sozinho? Aqui você sai do loop do tutorial.</p>
+            </div>
+        </div>
+
+        <div class="not-for-you">
+            <p style="color: var(--teal); font-weight: 700; font-size: 1rem; margin-bottom: 6px;">⚠️ Este ebook NÃO é para você se:</p>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Você já domina HTML, CSS e JavaScript e quer conteúdo avançado. Este é um material <strong style="color: var(--white);">100% focado em iniciantes</strong>.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="section pricing-section" id="oferta">
+    <div class="section-inner">
+        <span class="section-label">🔥 Oferta Especial</span>
+        <h2 class="section-title">Invista uma vez.<br>Tenha acesso para sempre.</h2>
+        <p class="section-desc" style="margin-left: auto; margin-right: auto;">26 capítulos + 8 bônus + projetos reais — tudo por um valor que custa menos que um lanche.</p>
+
+        <div class="pricing-card">
+            <div class="popular-badge">MAIS VENDIDO</div>
+            <h3>Programação Web do Zero</h3>
+            <p class="price-old">De R$ 147,00</p>
+            <p class="price">R$ 47</p>
+            <p class="price-note">Pagamento único · Acesso vitalício</p>
+
+            <ul class="price-features">
+                <li><span class="check">✓</span> 26 capítulos em 5 partes</li>
+                <li><span class="check">✓</span> HTML, CSS e JavaScript completos</li>
+                <li><span class="check">✓</span> 4 projetos práticos</li>
+                <li><span class="check">✓</span> Exercícios com gabarito</li>
+                <li><span class="check">✓</span> Bônus 1: Cheat Sheet HTML</li>
+                <li><span class="check">✓</span> Bônus 2: Cheat Sheet CSS</li>
+                <li><span class="check">✓</span> Bônus 3: Cheat Sheet JavaScript</li>
+                <li><span class="check">✓</span> Bônus 4: Cheat Sheet Git</li>
+                <li><span class="check">✓</span> Bônus 5: 20 Ideias de Projetos</li>
+                <li><span class="check">✓</span> Bônus 6: Checklist do Primeiro Site</li>
+                <li><span class="check">✓</span> Bônus 7: Gabaritos dos Exercícios</li>
+                <li><span class="check">✓</span> Bônus 8: Plano de Estudos 30 Dias</li>
+            </ul>
+
+            <a href="https://pay.kiwify.com.br/m433GX1" class="btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 18px;">
+                🛒 QUERO GARANTIR MINHA VAGA
+            </a>
+
+            <p style="margin-top: 14px; font-size: 0.8rem; color: var(--text-muted);">🔒 Compra 100% segura · Acesso imediato · 7 dias de garantia</p>
+        </div>
+    </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="section guarantee-section">
+    <div class="section-inner">
+        <span class="section-label">🛡️ Garantia</span>
+        <h2 class="section-title" style="text-align: center;">Sua compra é 100% protegida</h2>
+
+        <div class="guarantee-box">
+            <div class="shield-icon">🛡️</div>
+            <h3>Garantia Incondicional de 7 Dias</h3>
+            <p>Se por qualquer motivo você sentir que o ebook não é para você, basta solicitar reembolso em até 7 dias e devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia, sem letras miúdas. O risco é todo nosso.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section alt-bg">
+    <div class="section-inner">
+        <span class="section-label">❓ Dúvidas Frequentes</span>
+        <h2 class="section-title" style="text-align: center;">Perguntas Frequentes</h2>
+
+        <div class="faq-list">
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">
+                    Preciso saber programar para começar?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Não! Este ebook foi feito para quem nunca programou. Começamos do absoluto zero — você nem precisa saber o que é HTML. Tudo é explicado passo a passo, em linguagem simples.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">
+                    Preciso ter um computador potente?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Não. Qualquer computador funciona. Você só precisa de um navegador (Chrome, Edge ou Firefox) e do VS Code, que é gratuito e leve. Funciona até em notebook antigo.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">
+                    Quanto tempo vou levar para terminar?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Seguindo o Plano de Estudos de 30 dias (Bônus 8), você termina em 4 semanas estudando 1-2 horas por dia. Mas pode ir no seu ritmo — o acesso é vitalício.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">
+                    Vou conseguir criar um site de verdade?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Sim! O ebook tem 4 projetos práticos e o projeto final te guia até publicar seu site na internet gratuitamente via GitHub Pages. Qualquer pessoa poderá acessar seu site pelo link.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">
+                    Qual a diferença para cursos gratuitos no YouTube?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Este ebook é estruturado, progressivo e completo. Nada é pulado, tudo é explicado antes de ser usado, e você tem exercícios com gabarito, projetos e bônus. No YouTube, você pula entre vídeos e fica perdido. Aqui, você segue um caminho claro do zero ao site publicado.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">
+                    E se eu não gostar?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Você tem 7 dias de garantia incondicional. Se não gostar, basta pedir reembolso e devolvemos 100% do valor. Sem perguntas.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">
+                    Como recebo o ebook?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Após a confirmação do pagamento, você recebe acesso imediato ao ebook completo e todos os bônus pela plataforma Kiwify. É tudo digital — comece a estudar no mesmo minuto.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+    <p class="countdown-text">⏰ Oferta por tempo limitado</p>
+    <h2>
+        Comece sua jornada<br>
+        <span class="highlight">como Desenvolvedor Web</span>
+    </h2>
+    <p class="sub">Não espere saber tudo para começar. Crie. Erre. Pesquise. Corrija. Teste novamente. Cada erro é uma oportunidade de aprender.</p>
+
+    <a href="https://pay.kiwify.com.br/m433GX1" class="btn-primary" style="font-size: 1.15rem; padding: 20px 48px;">
+        🚀 QUERO COMEÇAR AGORA — R$ 47
+    </a>
+
+    <p style="margin-top: 18px; font-size: 0.82rem; color: var(--text-muted);">🔒 Pagamento seguro via Kiwify · Acesso imediato · Garantia de 7 dias</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 — Programação Web do Zero. Todos os direitos reservados.</p>
+    <p style="margin-top: 6px;">Este produto não garante a obtenção de resultados. Qualquer referência ao desempenho é ilustrativa.</p>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    const animatedEls = document.querySelectorAll('.pain-card, .learn-card, .timeline-item, .bonus-card, .diff-item, .audience-card');
+    animatedEls.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+</script>
+
+</body>
+</html>
